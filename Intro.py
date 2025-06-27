@@ -91,5 +91,84 @@ my = pd.DataFrame({
 
 #pd.merge(a,b,on) merges a and b DataFrames or Series into one DataFrame or Series
 
-# Grouping
+# GROUPING
 
+# DataFrame.gorupby(a[b]).function() a as a rows and applies function on b columns
+
+dataframe1 = pd.DataFrame(
+    {
+        'city' : ['Tashkent','Moscow','Urgench','Tokyo','Seoul','Tashkent','Tashkent'],
+        'population' : [1,2,1,2,2,1,1],
+        'economy' : [5,10,1,10,10,5,5]
+    }
+)
+
+#print(dataframe1.groupby('city')[['population','economy']].sum())
+
+# RESHAPING
+
+# DataFrame.stack() reshapes dataframe as below
+
+zxc = pd.DataFrame({
+    'happines' : [5,10],
+    'workability' : [1,10]
+}, index = ['hometown','foreigntown'])
+
+'''
+             happines  workability
+hometown            5            1
+foreigntown        10           10
+'''
+zxc.stack()
+'''
+hometown     happines        5
+             workability     1
+foreigntown  happines       10
+             workability    1
+'''
+
+# DataFram.unstack() unstacks the dataframe
+
+# PIVOT TABLES
+
+# pd.pivot_tables(a,b,c,d,e) a = DataFrame, b = value being summarized, c = indexes, d = columns, e = function
+
+#TIME SERIES
+
+rng = pd.date_range("1/1/2012", periods=100, freq="s")
+
+ts = pd.Series(np.random.randint(0, 500, len(rng)), index=rng)
+
+# DataFrame.resample(a).func() resamples DataFrame by a(seconds, hours, minutes e.t.c) and applies func
+
+rng2 = pd.date_range('1/1/2025', periods = 6, freq = 'D')
+
+ts2 = pd.Series(np.random.randn(len(rng2)),index = rng2)
+
+# Series.tz_localize('UTC') localizes time for 'UTC' timezone
+
+(ts2.tz_localize('UTC')).tz_convert('US/Eastern')
+
+# Series.tz_convert('US/Eastern') converts according to US/Eastern timezone
+
+rng2+pd.offsets.BusinessDay(20)
+
+# pd.offsets.BusinessDay(a) returns a businessdays
+
+# CATEGORICALS
+
+zxcgg = pd.DataFrame(
+    {
+        'id' : [0,1,2,3,4,5],
+        'grade' : ['a','b','c','d','a','b']
+    }
+)
+
+new_cat = ['very good','good','bad','very bad']
+zxcgg['raw_grade'] = zxcgg['grade'].astype('category')
+zxcgg['raw_grade'] = zxcgg['raw_grade'].cat.rename_categories(new_cat)
+
+'''
+Here I create zxcgg dataframe for grades, then i create new category names, make grades categorised and give
+these categories new names
+'''
