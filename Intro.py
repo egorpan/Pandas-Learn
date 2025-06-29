@@ -1,5 +1,7 @@
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
+
 #CREATING OBJECTS/DATA
 # DataFrame = multidimensional array
 # Series = one dimensional arrays
@@ -172,3 +174,44 @@ zxcgg['raw_grade'] = zxcgg['raw_grade'].cat.rename_categories(new_cat)
 Here I create zxcgg dataframe for grades, then i create new category names, make grades categorised and give
 these categories new names
 '''
+
+# DataFrame.sort_values('by='category') sorts values by category
+(zxcgg.sort_values(by='grade'))
+
+# DataFrame.goupby('category',observed = False).size() shows empty categories
+(zxcgg.groupby('grade',observed = False).size())
+
+#PLOTTING
+
+# import matplotlib as plt
+
+# Series/DataFrame.plot() plots the graph
+# plt.show() shows graph
+someSeries = pd.Series(np.random.randn(1000), index = pd.date_range('1/1/2025', periods=1000))
+someSeries = someSeries.cumsum()
+#someSeries.plot()
+#plt.show()
+
+# DataFrame.plot() shows all columns
+dff = pd.DataFrame(np.random.randn(1000,4), index = pd.date_range('1/1/2025',periods = 1000), columns = ['A','B','C','D'])
+#dff = dff.cumsum()
+#plt.figure()
+#dff.plot()
+#plt.legend(loc='best')
+#plt.show()
+
+#IMPORTING AND EXPORTING DATA
+
+# DataFrame.to_csv() creates .csv file from DataFrame
+# pd.read_csv() returns csv file to python
+dff2 = pd.DataFrame(np.random.randint(0,5,(10,5)))
+dff2.to_csv('my.csv')
+print(pd.read_csv('my.csv'))
+
+# DataFrame.to_parquet('name') makes .parquet file
+# pd.read_parquet('file') return python data
+dff3 = pd.DataFrame(np.random.randint(0,5,(10,5)))
+dff3.to_parquet('my.parquet')
+
+# DataFrame.to_excel('name', sheet_name = 'sheet') creates excel
+# pd.read_excel('name', 'sheetname', index_col = None`, na_values = ['NA'])
